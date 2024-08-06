@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/login").permitAll();
                     auth.requestMatchers("/transfer").permitAll();
+                    auth.requestMatchers("/sse").permitAll();
                     auth.requestMatchers("/create-new-user").permitAll();
                     auth.anyRequest().authenticated();
                 })
