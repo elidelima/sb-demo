@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/sse").permitAll();
                     auth.requestMatchers("/create-new-user").permitAll();
                     auth.requestMatchers("/new-post").permitAll();
+                    auth.requestMatchers("/actuator/*").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 // add a filter fot the jwt auth
