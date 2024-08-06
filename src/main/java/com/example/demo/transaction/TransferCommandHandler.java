@@ -1,6 +1,7 @@
 package com.example.demo.transaction;
 
 import com.example.demo.Command;
+import com.example.demo.event.TransferEventPublisher;
 import com.example.demo.exceptions.CustomBaseException;
 import com.example.demo.exceptions.SimpleResponse;
 import jakarta.transaction.Transactional;
@@ -15,9 +16,11 @@ import java.util.Optional;
 @Transactional
 public class TransferCommandHandler implements Command<TransferDTO, ResponseEntity> {
     private final BankAccountRepository bankAccountRepository;
+    private final TransferEventPublisher transferEventPublisher;
 
-    public TransferCommandHandler(BankAccountRepository bankAccountRepository) {
+    public TransferCommandHandler(BankAccountRepository bankAccountRepository, TransferEventPublisher transferEventPublisher) {
         this.bankAccountRepository = bankAccountRepository;
+        this.transferEventPublisher = transferEventPublisher;
     }
 
     @Override
@@ -35,6 +38,8 @@ public class TransferCommandHandler implements Command<TransferDTO, ResponseEnti
         deduct(from, transferDTO.getAmount());
 
         // No need to call method .save
+
+        transferEventPublisher.publish(this, transferDTO);
 
         return ResponseEntity.ok("Successful");
     }
