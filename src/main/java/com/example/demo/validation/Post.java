@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Data
 public class Post {
@@ -17,4 +19,6 @@ public class Post {
 
     @Size(min = 5, message = "Description too short, must be at least 5 characters long ")
     private String description;
+
+    private Date createdAt;
 }
